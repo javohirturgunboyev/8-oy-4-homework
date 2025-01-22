@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-// Type definitions
+
 interface Product {
   title: string;
   company: string;
@@ -55,7 +55,7 @@ const ProductDetails = () => {
     if (!product) return;
 
     const cartItem: CartItem = {
-      id,
+      id: product.description,
       title: product.title,
       price: product.price,
       image: product.image,
@@ -67,7 +67,7 @@ const ProductDetails = () => {
     const updatedCart = [...existingCart, cartItem];
     localStorage.setItem("cart", JSON.stringify(updatedCart));
 
-    window.dispatchEvent(new Event("storage")); // For real-time cart updates
+    window.dispatchEvent(new Event("storage")); 
   };
 
   if (loading) return <p className="text-center mt-10 text-gray-700 dark:text-white">Loading...</p>;
@@ -90,23 +90,23 @@ const ProductDetails = () => {
       <div className="flex flex-col md:flex-row gap-8 items-start">
         <div className="flex-1">
           <img
-            src={product.image || "https://via.placeholder.com/400"}
-            alt={product.title || "Product"}
+            src={product?.image || "https://via.placeholder.com/400"}
+            alt={product?.title || "Product"}
             className="w-full h-auto object-cover rounded shadow"
           />
         </div>
         <div className="flex-1">
-          <h1 className="text-3xl font-bold mb-2 dark:text-white">{product.title}</h1>
-          <h2 className="text-xl text-gray-500 mb-4">{product.company || "Brand"}</h2>
-          <p className="text-2xl font-semibold mb-6 dark:text-white">${product.price || "N/A"}</p>
+          <h1 className="text-3xl font-bold mb-2 dark:text-white">{product?.title || "Default Title"}</h1>
+          <h2 className="text-xl text-gray-500 mb-4">{product?.company || "Brand"}</h2>
+          <p className="text-2xl font-semibold mb-6 dark:text-white">${product?.price || "N/A"}</p>
           <p className="text-gray-700 mb-6 dark:text-gray-300">
-            {product.description || "No description available."}
+            {product?.description || "No description available."}
           </p>
 
           <div className="mb-4">
             <h3 className="font-semibold dark:text-white">Colors</h3>
             <div className="flex flex-wrap gap-4 mt-2">
-              {(product.colors || ["#FF0000", "#00FF00", "#0000FF"]).map((color, index) => (
+              {(product?.colors || ["#FF0000", "#00FF00", "#0000FF"]).map((color, index) => (
                 <label key={index} className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
